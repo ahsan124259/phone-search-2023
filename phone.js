@@ -8,6 +8,13 @@ const loadPhones=(searchText)=>{
 const displayData=(phones)=>{
     const mainContainer=document.getElementById('main-container');
     mainContainer.textContent='';
+    const showAll=document.getElementById('show-button');
+  if(phones.length>5){
+    phones=phones.slice(0,5)
+    showAll.classList.remove('d-none')
+}else{
+    showAll.classList.add('d-none')
+}
     
   const noPhone=document.getElementById('no-phone-found')
   if(phones.length===0){
