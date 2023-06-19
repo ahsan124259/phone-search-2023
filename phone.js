@@ -1,15 +1,15 @@
-const loadPhones=(searchText)=>{
+const loadPhones=(searchText,dataLimit)=>{
     const url=`https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
     .then(res=>res.json())
-    .then(data=>displayData(data.data))
+    .then(data=>displayData(data.data,dataLimit))
 
 }
-const displayData=(phones)=>{
+const displayData=(phones,dataLimit)=>{
     const mainContainer=document.getElementById('main-container');
     mainContainer.textContent='';
     const showAll=document.getElementById('show-button');
-  if(phones.length>5){
+  if(dataLimit&&phones.length>5){
     phones=phones.slice(0,5)
     showAll.classList.remove('d-none')
 }else{
@@ -42,11 +42,15 @@ const displayData=(phones)=>{
 }
 
 document.getElementById('search-button').addEventListener('click',function(){
-    toggleSpiner(true)
-    const searchField=document.getElementById('seaech-field')
-    const searchText=searchField.value;
-    loadPhones(searchText);
-    searchField.value=''
+    
+    processSearch(5);
+    searchField.value='';
+   
+    // toggleSpiner(true)
+    // const searchField=document.getElementById('seaech-field')
+    // const searchText=searchField.value;
+    // loadPhones(searchText);
+    // searchField.value=''
 
 })
 const toggleSpiner=(isLoadding)=>{
@@ -57,6 +61,17 @@ const toggleSpiner=(isLoadding)=>{
         loaderSpiner.classList.add('d-none')
     }
 }
-
+document.getElementById('button-show-all').addEventListener('click',function(){
+    processSearch()
+    
+})
+const processSearch=(dataLimit)=>{
+    toggleSpiner(true)
+    const searchField=document.getElementById('seaech-field')
+    const searchText=searchField.value;
+    loadPhones(searchText,dataLimit);
+    // searchField.value='';
+    
+}
 
 loadPhones()
